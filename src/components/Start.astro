@@ -1,0 +1,103 @@
+---
+// «Як почати»: the club's path (B-F004) as match time. Segment lengths follow the minutes (45 : 90).
+import Section from "./Section.astro";
+import CallButton from "./CallButton.astro";
+import Icon from "./Icon.astro";
+import { Picture } from "astro:assets";
+import training from "../assets/img/met3.jpg";
+---
+<Section id="start" rec="UX-R005" class="section start">
+  <div class="container">
+    <div class="head head--split">
+      <h2>Як почати: перший тайм, знайомство, склад</h2>
+      <p class="lead">Від першого заняття до своєї групи — три кроки. Перший з них безкоштовний.</p>
+    </div>
+
+    <ol class="halves" data-fill>
+      <li class="half half--1" style="--i: 0">
+        <span class="half__bar" aria-hidden="true"><span class="half__fill"></span></span>
+        <p class="half__time">0'–45'</p>
+        <h3>Прийди та спробуй</h3>
+        <p>Безкоштовне ознайомче заняття в ігровій формі. Батьки дивляться прямо в залі.</p>
+      </li>
+      <li class="half half--2" style="--i: 1">
+        <span class="half__bar" aria-hidden="true"><span class="half__fill"></span><span class="half__mid"></span></span>
+        <p class="half__time">45'–135'</p>
+        <h3>Знайомство з Junior</h3>
+        <p>Два адаптаційні заняття по 45 хв. Тренери визначають сильні якості дитини, оцінюють фізичні дані й дають рекомендацію.</p>
+      </li>
+      <li class="half half--3" style="--i: 2">
+        <span class="half__bar" aria-hidden="true"><span class="half__whistle"><Icon name="whistle" size={22} /></span></span>
+        <p class="half__time">Свисток</p>
+        <h3>Обери програму</h3>
+        <p>Група — за віком дитини і порадою тренера.</p>
+        <a class="tlink" href="#programs"><span>Склад за віком</span><Icon name="arrow-right" size={20} /></a>
+      </li>
+    </ol>
+
+    <div class="start__foot">
+      <figure class="start__photo photo">
+        <Picture
+          src={training}
+          alt="Тренер і троє малюків у помаранчевих манішках з мʼячами на занятті в залі Junior Club"
+          formats={["avif", "webp"]}
+          widths={[360, 640, 1080]}
+          sizes="(min-width: 64rem) 50vw, 100vw"
+          loading="lazy"
+        />
+        <figcaption class="caption">Заняття малюків у залі клубу</figcaption>
+      </figure>
+      <div class="start__cta">
+        <p class="start__cta-title">Перший тайм — за вами</p>
+        <CallButton variant="yellow" />
+      </div>
+    </div>
+  </div>
+</Section>
+
+<style>
+  .halves { list-style: none; display: grid; gap: var(--s-4); }
+  .half { position: relative; display: grid; gap: var(--s-1); align-content: start; padding-left: var(--s-5); }
+  .half h3 { font-size: var(--text-title); }
+  .half p:not(.half__time) { max-width: 38ch; }
+  .half__time { font: 400 1rem/1 var(--font-display); }
+  .half .tlink { margin-top: var(--s-1); justify-self: start; }
+
+  /* vertical scale on phones */
+  .half__bar { position: absolute; left: .9rem; top: 0; bottom: calc(-1 * var(--s-4)); width: 8px; background: transparent; }
+  .half__fill { position: absolute; inset: 0; background: var(--color-text); border-radius: var(--radius-pill); transform-origin: top center; }
+  .half__mid { position: absolute; left: -.5rem; right: -.5rem; top: 50%; height: var(--rule); background: var(--color-bg); }
+  .half--3 .half__bar { bottom: auto; }
+  .half__whistle {
+    position: absolute; left: 50%; top: 0; transform: translateX(-50%);
+    display: grid; place-items: center; width: 2.75rem; height: 2.75rem; border-radius: var(--radius-pill);
+    background: var(--color-accent); color: var(--color-accent-ink); border: var(--rule) solid var(--color-text);
+  }
+  :global(.js) .halves:not(.is-visible) .half__fill { transform: scaleY(0); }
+  .half__fill { transition: transform 400ms var(--ease-out); transition-delay: calc(var(--i) * 150ms); }
+
+  .half--2 p:not(.half__time) { max-width: 60ch; }
+  .start__foot { display: grid; gap: var(--s-4); margin-top: var(--s-5); }
+  .start__photo { margin: 0; }
+  .start__photo :global(img) { aspect-ratio: 4 / 3; object-position: 50% 62%; }
+  .start__cta { display: grid; gap: var(--s-3); justify-items: start; align-content: center; }
+  .start__cta-title { font: 400 var(--text-title)/1.2 var(--font-display); }
+
+  @media (min-width: 48rem) {
+    .halves { grid-template-columns: minmax(0, 1fr) minmax(0, 2fr) minmax(12rem, .9fr); gap: 0; }
+    .half { padding: var(--s-4) var(--s-3) 0 0; }
+    .half__bar { left: 0; right: 0; top: 0; bottom: auto; width: auto; height: 8px; }
+    .half--1 .half__bar { right: 6px; }
+    .half__fill { transform-origin: left center; }
+    .half__mid { left: 50%; right: auto; top: -.5rem; bottom: -.5rem; width: var(--rule); height: auto; }
+    .half--3 .half__bar { height: var(--rule); top: 3px; background: var(--color-text); }
+    .half__whistle { left: auto; right: 0; top: 50%; transform: translateY(-50%); }
+    :global(.js) .halves:not(.is-visible) .half__fill { transform: scaleX(0); }
+    .half__fill { transition-duration: var(--dur); }
+    .start__foot { grid-template-columns: minmax(0, 7fr) minmax(0, 5fr); column-gap: var(--s-5); align-items: center; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    :global(.js) .halves:not(.is-visible) .half__fill { transform: none; }
+  }
+</style>

@@ -1,0 +1,24 @@
+---
+// Sticky call bar on phones: appears after the first screen, hides in #contacts (src/scripts/ui.ts). Hidden without JS.
+import Icon from "./Icon.astro";
+import { phones } from "../data/club";
+---
+<div class="sticky-call" data-sticky>
+  <a class="sticky-call__link" href={`tel:${phones.main.tel}`} data-rec="UX-R003,B-R002,G-R001,MT-R001">
+    <Icon name="phone" size={20} />
+    <span class="sticky-call__text">Записатися безкоштовно</span>
+  </a>
+</div>
+
+<style>
+  .sticky-call__link {
+    display: flex; align-items: center; justify-content: center; gap: .75rem; white-space: nowrap;
+    min-height: var(--btn-h); padding: 0 var(--s-3); border-radius: var(--radius-pill);
+    background: var(--color-text); color: var(--color-accent); text-decoration: none; font-weight: 600;
+    border: var(--rule) solid var(--color-accent);
+  }
+  .sticky-call__link:active { transform: translateY(1px); }
+  @media (prefers-reduced-motion: reduce) {
+    .sticky-call__link:active { transform: none; }
+  }
+</style>

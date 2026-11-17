@@ -1,0 +1,67 @@
+---
+// Footer: black, yellow shield outline on top; real channels only, FutureLink for the privacy page.
+import { Image } from "astro:assets";
+import FutureLink from "./FutureLink.astro";
+import emblem from "../assets/img/emblem.png";
+import { arenas, email, phones, socials } from "../data/club";
+const year = new Date().getFullYear();
+---
+<footer class="footer on-dark">
+  <div class="container footer__grid">
+    <div class="footer__brand">
+      <a class="footer__logo" href="#top" aria-label="Junior Club — на початок сторінки">
+        <Image src={emblem} alt="" width={54} height={72} densities={[1, 2]} loading="lazy" />
+      </a>
+      <p>Академія раннього розвитку футболу у Львові</p>
+    </div>
+    <div>
+      <h2 class="footer__h">Арени</h2>
+      <ul>
+        {arenas.map((a) => <li class="footer__arena"><a href={a.map} target="_blank" rel="noopener">{a.district}</a><span>Львів, {a.street}, {a.floor}</span></li>)}
+      </ul>
+    </div>
+    <div>
+      <h2 class="footer__h">Контакти</h2>
+      <ul>
+        <li><a href={`tel:${phones.main.tel}`} data-rec="UX-R003,B-R002,G-R001,MT-R001">{phones.main.label}</a></li>
+        <li><a href={`tel:${phones.second.tel}`} data-rec="UX-R003">{phones.second.label}</a></li>
+        <li><a href={`mailto:${email}`}>{email}</a></li>
+      </ul>
+    </div>
+    <div>
+      <h2 class="footer__h">Соцмережі</h2>
+      <ul>
+        {socials.map((s) => <li><a href={s.url} target="_blank" rel="noopener" data-rec="S-R012">{s.name}</a></li>)}
+      </ul>
+    </div>
+  </div>
+  <div class="container footer__legal">
+    <p>© {year} Junior Club</p>
+    <p class="footer__soon">
+      <FutureLink note="Розділ у розробці">Тренери</FutureLink>
+      <FutureLink note="Розділ у розробці">Політика конфіденційності</FutureLink>
+    </p>
+  </div>
+</footer>
+
+<style>
+  .footer { background: var(--color-text); border-top: var(--outline) solid var(--color-accent); padding-block: var(--s-5) var(--s-3); }
+  .footer__grid { display: grid; gap: var(--s-4); }
+  .footer__brand { display: grid; gap: var(--s-2); justify-items: start; color: var(--color-on-dark-muted); max-width: 22ch; }
+  .footer__logo { display: inline-flex; min-height: 2.75rem; }
+  .footer__logo :global(img) { width: auto; height: 72px; }
+  .footer__h { font: 600 var(--text-small)/1.4 var(--font-body); color: var(--color-on-dark-muted); margin-bottom: var(--s-1); }
+  .footer ul { list-style: none; display: grid; gap: .25rem; }
+  .footer__arena { display: grid; padding-bottom: var(--s-1); }
+  .footer__arena span { color: var(--color-on-dark-muted); font-size: var(--text-small); line-height: 1.45; }
+  .footer a:not(.footer__logo) { display: inline-flex; align-items: center; min-height: 2.75rem; color: var(--color-on-dark); text-decoration: none; }
+  .footer a:not(.footer__logo):hover { text-decoration: underline; text-decoration-thickness: var(--rule); text-underline-offset: .25em; color: var(--color-accent); }
+  .footer__legal { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: var(--s-2); margin-top: var(--s-5); padding-top: var(--s-2); border-top: 1px solid var(--color-graphite); color: var(--color-on-dark-muted); font-size: var(--text-small); }
+  .footer__soon { display: flex; flex-wrap: wrap; gap: var(--s-1) var(--s-3); }
+  @media (min-width: 48rem) {
+    .footer__grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  }
+  @media (min-width: 64rem) {
+    .footer__grid { grid-template-columns: minmax(0, 3fr) minmax(0, 4fr) minmax(0, 3fr) minmax(0, 2fr); }
+  }
+</style>

@@ -1,0 +1,49 @@
+---
+// «Чому Junior Club»: differences from facts only (B-R008; B-F002, B-F004, L-F004, L-F006, B-F016). Final wording — client.
+import Section from "./Section.astro";
+
+const reasons = [
+  { t: "З 1,6 року", d: "Приймаємо малюків від 1,6 року; групи — до 12 років, у кожного віку своя програма." },
+  { t: "Адаптація з рекомендацією", d: "Два адаптаційні заняття, після яких тренер радить програму саме для вашої дитини." },
+  { t: "Батьки бачать заняття", d: "У залі на ознайомчому занятті та в холі з трансляцією тренування." },
+  { t: "Перші англійські слова", d: "Під час тренувань діти вивчають перші англійські слова в ігровій формі." },
+  { t: "Голландська методика", d: "Програма, розроблена спеціально для кожної вікової групи. Головна мета — характер і воля до перемоги." },
+];
+---
+<Section id="why" rec="B-R008" class="section why">
+  <div class="container why__grid">
+    <div class="why__head">
+      <h2>План гри від 1,6 до 12 років</h2>
+      <p class="lead">Голландська методика, адаптація з тренером і батьки поруч — з першого заняття.</p>
+    </div>
+    <div class="why__text">
+      <ol class="reasons">
+        {reasons.map((r) => (
+          <li>
+            <h3>{r.t}</h3>
+            <p>{r.d}</p>
+          </li>
+        ))}
+      </ol>
+    </div>
+  </div>
+</Section>
+
+<style>
+  .why { border-top: var(--rule) solid var(--color-text); }
+  .why__grid { display: grid; gap: var(--s-4); }
+  .why__head { display: grid; gap: var(--s-2); align-content: start; }
+  .reasons { list-style: none; counter-reset: why; display: grid; }
+  .reasons li {
+    counter-increment: why; display: grid; grid-template-columns: 3.5rem minmax(0, 1fr); column-gap: var(--s-2);
+    padding: var(--s-3) 0; border-top: var(--rule) solid var(--color-text);
+  }
+  .reasons li::before { content: counter(why); grid-row: span 2; font: 400 var(--text-section)/1 var(--font-display); }
+  .reasons h3 { font-size: var(--text-title); }
+  .reasons p { margin-top: .25rem; max-width: 52ch; color: var(--color-muted); }
+
+  @media (min-width: 64rem) {
+    .why__grid { grid-template-columns: minmax(0, 4fr) minmax(0, 8fr); column-gap: var(--s-5); align-items: start; }
+      .reasons li { grid-template-columns: 5rem minmax(0, 1fr); }
+  }
+</style>

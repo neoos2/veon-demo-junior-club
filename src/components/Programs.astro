@@ -1,0 +1,98 @@
+---
+// «Склад за віком»: age first, programme name second (UX-R004, L-F002); individual «Junior чемпіон» 55 min (B-F005).
+import Section from "./Section.astro";
+import CallButton from "./CallButton.astro";
+import FutureLink from "./FutureLink.astro";
+import { programs } from "../data/club";
+const note = "Розділ у розробці";
+---
+<Section id="programs" rec="UX-R004" class="section programs">
+  <div class="container">
+    <div class="head head--split">
+      <h2>Склад за віком</h2>
+      <p class="lead">Знайдіть вік дитини — під ним її група. П'ять програм від 1,6 до 12 років.</p>
+    </div>
+
+    <ol class="squad">
+      {programs.map((p) => (
+        <li class="pos">
+          <p class="pos__age"><span class="pos__num">{p.age}</span> <span class="pos__unit">років</span></p>
+          <h3 class="pos__name">{p.name}</h3>
+          <FutureLink note={note} class="pos__more">Детальніше</FutureLink>
+        </li>
+      ))}
+    </ol>
+
+    <div class="programs__foot">
+      <div class="champ on-dark">
+        <div class="champ__text">
+          <h3>Junior чемпіон</h3>
+          <p class="champ__kind">Індивідуальне заняття з тренером</p>
+          <p>Пас, удар, дриблінг, контроль. Графік — зручний для вас, за узгодженням із тренером.</p>
+          <FutureLink note={note}>Детальніше</FutureLink>
+        </div>
+        <p class="champ__board"><span class="champ__num">55</span> <span class="champ__unit">хв</span></p>
+      </div>
+      <div class="programs__cta">
+        <p class="programs__hint">Не впевнені з групою? Тренер порадить після знайомства.</p>
+        <CallButton variant="yellow" />
+      </div>
+    </div>
+  </div>
+</Section>
+
+<style>
+  .programs { border-top: var(--rule) solid var(--color-text); }
+  .squad { list-style: none; display: grid; border-top: var(--rule) solid var(--color-text); }
+  .pos {
+    position: relative; isolation: isolate;
+    display: grid; grid-template-columns: 7.5rem minmax(0, 1fr); grid-template-areas: "age name" "age more";
+    column-gap: var(--s-2); align-items: baseline; padding: var(--s-2) 0; border-bottom: var(--rule) solid var(--color-text);
+  }
+  .pos::before {
+    content: ""; position: absolute; inset: 0; z-index: -1; background: var(--color-accent);
+    transform: scaleX(0); transform-origin: left center; transition: transform var(--dur-short) var(--ease-out);
+  }
+  .pos:hover::before, .pos:focus-within::before { transform: scaleX(1); }
+  .pos__age { grid-area: age; display: grid; line-height: 1; }
+  .pos__num { font: 400 2.75rem/1 var(--font-display); white-space: nowrap; }
+  .pos__unit { font-size: var(--text-small); color: var(--color-muted); margin-top: .25rem; }
+  .pos__name { grid-area: name; font-family: var(--font-body); font-weight: 600; font-size: 1.25rem; }
+  .pos :global(.pos__more) { grid-area: more; justify-self: start; }
+  .pos__num { font-size: clamp(1.75rem, 1rem + 3.4vw, 2.75rem); }
+
+  .programs__foot { display: grid; gap: var(--s-4); margin-top: var(--s-5); }
+  .champ {
+    display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: var(--s-3); align-items: center;
+    background: var(--color-text); border-radius: var(--radius); padding: var(--s-3);
+  }
+  .champ__text { display: grid; gap: var(--s-1); justify-items: start; }
+  .champ__kind { font-weight: 600; color: var(--color-accent); }
+  .champ__text p:not(.champ__kind) { color: var(--color-on-dark-muted); max-width: 40ch; }
+  .champ__board { display: grid; justify-items: center; line-height: .85; }
+  .champ__num { font: 400 var(--text-figure)/.85 var(--font-display); color: var(--color-accent); }
+  .champ__unit { font: 400 var(--text-title)/1 var(--font-display); }
+  .programs__cta { display: grid; gap: var(--s-2); justify-items: start; align-content: center; }
+  .programs__hint { font-size: var(--text-lead); max-width: 30ch; }
+
+  @media (min-width: 64rem) {
+    .squad { grid-template-columns: repeat(5, minmax(0, 1fr)); border-bottom: var(--rule) solid var(--color-text); }
+    .pos {
+      grid-template-columns: minmax(0, 1fr); grid-template-areas: "age" "name" "more";
+      row-gap: var(--s-2); padding: var(--s-4) var(--s-3) var(--s-3); border-bottom: 0; border-left: var(--rule) solid var(--color-text); align-content: start;
+    }
+    .pos:first-child { border-left: 0; }
+    .pos__num { font-size: var(--text-age); }
+    .pos__name { margin-top: auto; align-self: end; }
+    .programs__foot { grid-template-columns: minmax(0, 7fr) minmax(0, 5fr); column-gap: var(--s-5); align-items: center; }
+    .champ { padding: var(--s-4); }
+  }
+  @media (max-width: 29.99rem) {
+    .pos { grid-template-columns: 6rem minmax(0, 1fr); }
+    .champ { grid-template-columns: minmax(0, 1fr); }
+    .champ__board { display: flex; gap: .5rem; align-items: baseline; grid-row: 1; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .pos::before { transition: none; }
+  }
+</style>

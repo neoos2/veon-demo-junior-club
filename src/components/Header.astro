@@ -1,0 +1,141 @@
+---
+// Site header: on the yellow field over the hero, white and sticky after it (src/scripts/ui.ts).
+import { Image } from "astro:assets";
+import Icon from "./Icon.astro";
+import CallButton from "./CallButton.astro";
+import emblem from "../assets/img/emblem.png";
+import { phones, socials } from "../data/club";
+
+const links = [
+  { href: "#start", label: "Як почати" },
+  { href: "#programs", label: "Програми" },
+  { href: "#arenas", label: "Арени" },
+  { href: "#faq", label: "Батькам" },
+  { href: "#contacts", label: "Контакти" },
+];
+---
+<header class="site-header" data-header>
+  <div class="bar container">
+    <a class="logo" href="#top" aria-label="Junior Club — на початок сторінки">
+      <Image src={emblem} alt="" width={39} height={52} densities={[1, 2]} loading="eager" class="logo__img" />
+      <span class="logo__name">Junior Club</span>
+    </a>
+
+    <nav class="nav" aria-label="Розділи сторінки" data-rec="UX-R006">
+      <ul>
+        {links.map((l) => <li><a href={l.href}>{l.label}</a></li>)}
+      </ul>
+    </nav>
+
+    <div class="actions">
+      <a class="phone-text" href={`tel:${phones.main.tel}`} data-rec="UX-R003,B-R002,G-R001,MT-R001">{phones.main.label}</a>
+      <CallButton class="actions__cta" />
+      <a class="icon-btn phone-icon" href={`tel:${phones.main.tel}`} aria-label={`Подзвонити ${phones.main.label}`} data-rec="UX-R003,B-R002,G-R001,MT-R001">
+        <Icon name="phone" />
+      </a>
+      <button class="menu-btn" type="button" aria-expanded="false" aria-controls="menu-panel" data-menu-open>Меню</button>
+      <a class="menu-fallback" href="#contacts">Контакти</a>
+    </div>
+  </div>
+
+  <div class="menu on-yellow" id="menu-panel" hidden data-menu>
+    <div class="menu__top container">
+      <span class="menu__title">Меню</span>
+      <button class="icon-btn" type="button" aria-label="Закрити меню" data-menu-close><Icon name="close" /></button>
+    </div>
+    <nav class="menu__nav container" aria-label="Розділи сторінки (меню)" data-rec="UX-R006">
+      <ul>
+        {links.map((l) => <li><a href={l.href} data-menu-link>{l.label}</a></li>)}
+      </ul>
+    </nav>
+    <div class="menu__foot container">
+      <CallButton block label={phones.main.label} icon="phone" />
+      <CallButton block variant="yellow" label={phones.second.label} tel={phones.second.tel} icon="phone" />
+      <div class="menu__social">
+        {socials.map((s) => (
+          <a class="tlink" href={s.url} rel="noopener" target="_blank" data-rec="S-R012"><Icon name={s.name === "Instagram" ? "instagram" : "facebook"} size={20} /><span>{s.name}</span></a>
+        ))}
+      </div>
+    </div>
+  </div>
+</header>
+
+<style>
+  .site-header {
+    position: sticky; top: 0; z-index: 50;
+    background: var(--color-field); color: var(--color-text);
+    border-bottom: var(--rule) solid transparent;
+    transition: background-color var(--dur-short) var(--ease-out), border-color var(--dur-short) var(--ease-out);
+  }
+  .site-header.is-solid { background: var(--color-bg); border-bottom-color: var(--color-text); }
+  /* On the yellow field the hero holds the primary action; the header copy stays outlined */
+  .site-header:not(.is-solid) .actions :global(.actions__cta) { background: transparent; color: var(--color-text); }
+  .site-header:not(.is-solid) .actions :global(.actions__cta):hover { background: var(--color-text); color: var(--color-accent); }
+  .bar { display: flex; align-items: center; gap: var(--s-3); min-height: var(--header-h); }
+  .logo { display: inline-flex; align-items: center; gap: .75rem; text-decoration: none; color: inherit; margin-right: auto; min-height: 2.75rem; }
+  .logo__img { width: auto; height: 52px; }
+  .logo__name { font-family: var(--font-display); font-size: 1.125rem; line-height: 1; }
+
+  .nav { display: none; }
+  .nav ul { display: flex; align-items: center; gap: clamp(1rem, 0.2rem + 1.1vw, 1.5rem); list-style: none; }
+  .nav a { white-space: nowrap; display: inline-flex; align-items: center; min-height: 2.75rem; color: inherit; text-decoration: none; font-weight: 600; text-decoration-thickness: var(--rule); text-underline-offset: .35em; }
+  .nav a:hover { text-decoration: underline; }
+
+  .actions { display: flex; align-items: center; gap: var(--s-2); }
+  .phone-text { display: none; color: inherit; font-weight: 600; text-decoration: none; white-space: nowrap; min-height: 2.75rem; align-items: center; }
+  .phone-text:hover { text-decoration: underline; text-decoration-thickness: var(--rule); text-underline-offset: .3em; }
+  .actions :global(.actions__cta) { display: none; }
+  .icon-btn {
+    display: inline-grid; place-items: center; width: 2.75rem; height: 2.75rem;
+    border-radius: var(--radius-pill); border: var(--rule) solid currentColor; background: transparent; color: inherit; cursor: pointer; padding: 0;
+    transition: background-color var(--dur-short) var(--ease-out), color var(--dur-short) var(--ease-out);
+  }
+  .icon-btn:hover { background: var(--color-text); color: var(--color-accent); }
+  .menu-btn {
+    min-height: 2.75rem; padding: 0 1.125rem; border-radius: var(--radius-pill);
+    border: var(--rule) solid var(--color-text); background: var(--color-text); color: var(--color-accent);
+    font: 600 var(--text-body)/1 var(--font-body); cursor: pointer;
+    transition: background-color var(--dur-short) var(--ease-out);
+  }
+  .menu-btn:hover { background: var(--color-graphite); }
+  .menu-fallback { display: none; color: inherit; font-weight: 600; }
+  :global(html:not(.js)) .menu-btn { display: none; }
+  :global(html:not(.js)) .menu-fallback { display: inline-flex; min-height: 2.75rem; align-items: center; }
+
+  @media (max-width: 47.99rem) {
+    .logo__img { height: 40px; }
+    .logo__name { display: none; }
+  }
+  @media (min-width: 48rem) {
+    .actions :global(.actions__cta) { display: inline-flex; min-height: 3rem; white-space: nowrap; }
+    .phone-icon { display: none; }
+  }
+  @media (min-width: 64rem) {
+    .phone-text { display: inline-flex; }
+  }
+  @media (min-width: 75rem) {
+    .nav { display: block; }
+    .menu-btn, .menu-fallback, :global(html:not(.js)) .menu-fallback { display: none; }
+    .logo { margin-right: var(--s-2); }
+    .actions { margin-left: auto; }
+    .logo__name { display: none; }
+  }
+
+  /* Full-screen yellow menu panel (under 75rem) */
+  .menu {
+    position: fixed; inset: 0; z-index: 60; display: flex; flex-direction: column;
+    overflow-y: auto; overscroll-behavior: contain;
+    animation: menu-in var(--dur-short) var(--ease-out);
+  }
+  .menu[hidden] { display: none; }
+  .menu__top { display: flex; align-items: center; justify-content: space-between; min-height: var(--header-h); }
+  .menu__title { font-weight: 600; }
+  .menu__nav { flex: 1; padding-block: var(--s-3); }
+  .menu__nav ul { list-style: none; display: grid; gap: var(--s-1); }
+  .menu__nav a, .menu__nav :global(.future-link) { font-family: var(--font-display); font-size: 1.75rem; line-height: 1.2; color: inherit; text-decoration: none; display: inline-flex; min-height: 3rem; align-items: center; }
+  .menu__nav :global(.future-link) { text-decoration: underline dotted; text-decoration-thickness: var(--rule); }
+  .menu__nav :global(.future-link__note) { left: 0; transform: none; }
+  .menu__foot { display: grid; gap: var(--s-2); padding-block: var(--s-3) var(--s-4); }
+  .menu__social { display: flex; gap: var(--s-3); }
+  @keyframes menu-in { from { opacity: 0; transform: translateY(-8px); } to { opacity: 1; transform: none; } }
+</style>

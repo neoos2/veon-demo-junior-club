@@ -1,0 +1,79 @@
+---
+// «Питання батьків»: answers only from facts (B-F004, B-F005, L-F004, B-F011). Frequency is not shown until the client confirms B-F006.
+import { Picture } from "astro:assets";
+import Section from "./Section.astro";
+import Icon from "./Icon.astro";
+import training from "../assets/img/dscf4239-scaled.jpg";
+import { phones } from "../data/club";
+
+const qa = [
+  { q: "З якого віку можна прийти?", a: "З 1,6 року. Групи — від 1,6 до 12 років, кожна за своєю програмою." },
+  { q: "Скільки триває заняття?", a: "Ознайомче і адаптаційні заняття — по 45 хвилин. Індивідуальне «Junior чемпіон» — 55 хвилин." },
+  { q: "Чи можна бути поруч із дитиною?", a: "Так. На ознайомчому занятті батьки спостерігають прямо в залі, а для батьків є хол із трансляцією тренування на телевізорі." },
+  { q: "Що буде після безкоштовного заняття?", a: "«Знайомство з Junior»: два адаптаційні заняття по 45 хвилин. Тренери оцінять дитину й порадять програму, після цього ви її обираєте." },
+];
+---
+<Section id="faq" rec="UX-R005" class="section faq">
+  <div class="container faq__grid">
+    <div class="faq__side">
+      <h2>Питання батьків</h2>
+      <figure class="faq__photo photo">
+        <Picture
+          src={training}
+          alt="Двоє вихованців у формі Junior Club грають у залі: воротар і нападник з мʼячем"
+          formats={["avif", "webp"]}
+          widths={[360, 640, 1080, 1600]}
+          sizes="(min-width: 64rem) 30vw, 100vw"
+          loading="lazy"
+        />
+      </figure>
+    </div>
+    <div class="faq__list">
+      {qa.map((item) => (
+        <details class="qa">
+          <summary><span>{item.q}</span><span class="qa__icon" aria-hidden="true"></span></summary>
+          <div class="qa__body"><p>{item.a}</p></div>
+        </details>
+      ))}
+      <details class="qa">
+        <summary><span>Скільки коштує і який розклад?</span><span class="qa__icon" aria-hidden="true"></span></summary>
+        <div class="qa__body">
+          <p>Вартість і розклад груп на кожній арені підкажемо телефоном. Перше заняття — безкоштовне.</p>
+          <a class="tlink" href={`tel:${phones.main.tel}`} data-rec="UX-R003,B-R002,G-R001,MT-R001"><Icon name="phone" size={20} /><span>{phones.main.label}</span></a>
+        </div>
+      </details>
+    </div>
+  </div>
+</Section>
+
+<style>
+  .faq { border-top: var(--rule) solid var(--color-text); }
+  .faq__grid { display: grid; gap: var(--s-4); }
+  .faq__photo { margin: var(--s-4) 0 0; }
+  .faq__photo :global(img) { aspect-ratio: 4 / 3; object-position: 60% 60%; }
+  .faq__list { border-top: var(--rule) solid var(--color-text); }
+  .qa { border-bottom: var(--rule) solid var(--color-text); }
+  .qa summary {
+    display: flex; align-items: center; justify-content: space-between; gap: var(--s-2);
+    min-height: 4.5rem; padding: var(--s-2) 0; cursor: pointer; list-style: none;
+    font: 400 var(--text-title)/1.25 var(--font-display);
+  }
+  .qa summary::-webkit-details-marker { display: none; }
+  .qa summary:hover > span:first-child { text-decoration: underline; text-decoration-thickness: var(--rule); text-underline-offset: .2em; }
+  .qa__icon { position: relative; flex: none; width: 2.75rem; height: 2.75rem; border-radius: var(--radius-pill); border: var(--rule) solid var(--color-text); transition: background-color var(--dur-short) var(--ease-out); }
+  .qa__icon::before, .qa__icon::after { content: ""; position: absolute; left: 50%; top: 50%; width: 1rem; height: var(--rule); background: var(--color-text); transform: translate(-50%, -50%); transition: transform var(--dur-short) var(--ease-in-out); }
+  .qa__icon::after { transform: translate(-50%, -50%) rotate(90deg); }
+  .qa[open] .qa__icon { background: var(--color-accent); }
+  .qa[open] .qa__icon::after { transform: translate(-50%, -50%) rotate(0deg); }
+  .qa__body { display: grid; gap: var(--s-2); justify-items: start; padding: 0 0 var(--s-3); max-width: 60ch; font-size: var(--text-lead); color: var(--color-muted); }
+  .qa[open] .qa__body { animation: qa-in 200ms var(--ease-out); }
+  .qa__body .tlink { color: var(--color-text); }
+  @keyframes qa-in { from { opacity: 0; transform: translateY(-4px); } to { opacity: 1; transform: none; } }
+  @media (min-width: 64rem) {
+    .faq__grid { grid-template-columns: minmax(0, 4fr) minmax(0, 8fr); column-gap: var(--s-5); align-items: start; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .qa[open] .qa__body { animation: none; }
+    .qa__icon::before, .qa__icon::after { transition: none; }
+  }
+</style>

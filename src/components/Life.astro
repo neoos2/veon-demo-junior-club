@@ -1,0 +1,85 @@
+---
+// «Сезон клубу»: events as a match-day programme (B-F009, L-F007) and the club's confirmed socials.
+import Section from "./Section.astro";
+import FutureLink from "./FutureLink.astro";
+import Icon from "./Icon.astro";
+import { season, socials } from "../data/club";
+---
+<Section id="life" class="section life">
+  <div class="container">
+    <div class="head">
+      <h2>Сезон клубу</h2>
+    </div>
+    <div class="life__grid">
+      <div>
+        <ul class="fixtures">
+          {season.filter((e) => e.year).map((e) => (
+            <li class="fixture">
+              <p class="fixture__year">{e.year}</p>
+              <div>
+                <h3>{e.title}</h3>
+                <p class="fixture__note">{e.note}</p>
+              </div>
+            </li>
+          ))}
+        </ul>
+        <h3 class="also">Також у житті клубу</h3>
+        <ul class="also__list">
+          {season.filter((e) => !e.year).map((e) => (
+            <li>
+              <p class="also__title">{e.title}</p>
+              <p class="fixture__note">{e.note}</p>
+            </li>
+          ))}
+        </ul>
+        <p class="fixtures__more"><FutureLink note="Розділ у розробці">Усі події</FutureLink></p>
+      </div>
+      <div class="socials">
+        <p class="socials__title">Свіжі фото й відео — тут</p>
+        {socials.map((s) => (
+          <a class="social" href={s.url} target="_blank" rel="noopener">
+            <Icon name={s.name === "Instagram" ? "instagram" : "facebook"} size={32} />
+            <span class="social__name">{s.name}</span>
+            <span class="social__handle">{s.handle}</span>
+          </a>
+        ))}
+      </div>
+    </div>
+  </div>
+</Section>
+
+<style>
+  .life__grid { display: grid; gap: var(--s-5); }
+  .fixtures { list-style: none; border-top: var(--rule) solid var(--color-text); }
+  .fixture {
+    display: grid; grid-template-columns: minmax(0, 1fr); gap: .25rem;
+    padding: var(--s-3) 0; border-bottom: var(--rule) solid var(--color-text);
+  }
+  .fixture__year { font: 400 1rem/1.2 var(--font-display); color: var(--color-muted); }
+  .fixture h3 { font-size: var(--text-title); }
+  .fixture__note { color: var(--color-muted); margin-top: .25rem; }
+  .fixtures__more { padding-top: var(--s-2); }
+  .also { margin-top: var(--s-4); font-family: var(--font-body); font-weight: 600; font-size: var(--text-body); color: var(--color-muted); }
+  .also__list { list-style: none; display: grid; gap: var(--s-3); margin-top: var(--s-2); }
+  .also__title { font: 400 var(--text-title)/1.25 var(--font-display); }
+  @media (min-width: 48rem) { .also__list { grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: var(--s-4); } }
+  .socials { display: grid; gap: var(--s-2); align-content: start; }
+  .socials__title { font-weight: 600; }
+  .social {
+    display: grid; grid-template-columns: auto minmax(0, 1fr); grid-template-areas: "icon name" "icon handle";
+    column-gap: var(--s-2); align-items: center; padding: var(--s-3); border: var(--rule) solid var(--color-text); border-radius: var(--radius);
+    color: inherit; text-decoration: none;
+    transition: background-color var(--dur-short) var(--ease-out);
+  }
+  .social :global(.icon) { grid-area: icon; }
+  .social__name { grid-area: name; font: 400 var(--text-title)/1.1 var(--font-display); }
+  .social__handle { grid-area: handle; color: var(--color-muted); font-size: var(--text-small); }
+  .social:hover { background: var(--color-accent); }
+  .social:hover .social__handle { color: var(--color-text); }
+  @media (min-width: 48rem) {
+    .fixture { grid-template-columns: 9rem minmax(0, 1fr); column-gap: var(--s-3); align-items: baseline; }
+  }
+  @media (min-width: 64rem) {
+    .life__grid { grid-template-columns: minmax(0, 8fr) minmax(0, 4fr); column-gap: var(--s-5); }
+  }
+</style>

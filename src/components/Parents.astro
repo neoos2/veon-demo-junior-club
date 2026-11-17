@@ -1,0 +1,50 @@
+---
+// «Батьки — на трибуні»: what parents see (B-F004, L-F004, audit/text/home.txt: artificial turf).
+import { Picture } from "astro:assets";
+import Section from "./Section.astro";
+import tribune from "../assets/img/parents3-scaled.jpg";
+---
+<Section id="parents" rec="UX-R005" class="section parents on-dark">
+  <div class="container parents__grid">
+    <div class="parents__text">
+      <h2>Батьки — на трибуні</h2>
+      <ul class="facts">
+        <li><strong>Ознайомче заняття можна дивитися прямо в залі.</strong></li>
+        <li><strong>Хол із трансляцією тренування на телевізорі.</strong></li>
+        <li><strong>Зал із трибуною для змагань і атестацій.</strong></li>
+        <li><strong>Штучне покриття для безпечних і зручних занять.</strong></li>
+      </ul>
+    </div>
+    <figure class="parents__photo photo">
+      <Picture
+        src={tribune}
+        alt="Зал Junior Club: поле зі штучним покриттям, ворота і жовті крісла трибуни вздовж поля"
+        formats={["avif", "webp"]}
+        widths={[480, 800, 1200, 1600]}
+        sizes="(min-width: 64rem) 56vw, 100vw"
+        loading="lazy"
+      />
+      <figcaption class="caption">Трибуна в залі клубу</figcaption>
+    </figure>
+  </div>
+</Section>
+
+<style>
+  .parents { background: var(--color-graphite); }
+  .parents__grid { display: grid; gap: var(--s-4); }
+  .parents h2 { margin-bottom: var(--s-4); }
+  .facts { list-style: none; display: grid; }
+  .facts li {
+    padding: var(--s-2) 0; border-top: var(--rule) solid var(--color-on-dark-muted);
+    font-size: var(--text-lead); line-height: 1.4; color: var(--color-on-dark-muted);
+  }
+  .facts li:last-child { border-bottom: var(--rule) solid var(--color-on-dark-muted); }
+  .facts strong { font-family: var(--font-display); font-weight: 400; color: var(--color-on-dark); font-size: var(--text-title); line-height: 1.25; display: block; }
+  .parents__photo { margin: 0; }
+  .parents__photo :global(img) { aspect-ratio: 4 / 3; }
+  .parents .caption { color: var(--color-on-dark-muted); }
+
+  @media (min-width: 64rem) {
+    .parents__grid { grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); column-gap: var(--s-5); align-items: center; }
+  }
+</style>

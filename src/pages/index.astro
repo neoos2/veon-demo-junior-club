@@ -1,0 +1,64 @@
+---
+// Junior Club homepage (DEMO). Structure and order: design/concept.md (veon-concept sections).
+import { getImage } from "astro:assets";
+import Base from "../layouts/Base.astro";
+import Header from "../components/Header.astro";
+import Hero from "../components/Hero.astro";
+import Start from "../components/Start.astro";
+import Programs from "../components/Programs.astro";
+import Parents from "../components/Parents.astro";
+import Why from "../components/Why.astro";
+import Arenas from "../components/Arenas.astro";
+import Life from "../components/Life.astro";
+import Faq from "../components/Faq.astro";
+import Contacts from "../components/Contacts.astro";
+import Footer from "../components/Footer.astro";
+import StickyCall from "../components/StickyCall.astro";
+import emblem from "../assets/img/emblem.png";
+import { arenas, email, phones, site, socials } from "../data/club";
+
+const favicon = await getImage({ src: emblem, width: 48, height: 64, format: "png" });
+
+// SE-R004: Organization, WebSite and both arenas. URLs are left out until the final domain is known.
+const ld = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Organization",
+      "@id": "#org",
+      name: "Junior Club",
+      description: "Академія раннього розвитку футболу для дітей від 1,6 до 12 років, Львів",
+      telephone: phones.main.tel,
+      email,
+      sameAs: socials.map((s) => s.url),
+    },
+    { "@type": "WebSite", name: "Junior Club", inLanguage: "uk" },
+    ...arenas.map((a) => ({
+      "@type": "SportsActivityLocation",
+      name: `Junior Club — ${a.district}`,
+      parentOrganization: { "@id": "#org" },
+      telephone: phones.main.tel,
+      address: { "@type": "PostalAddress", streetAddress: `${a.street}, ${a.floor}`, addressLocality: "Львів", addressCountry: "UA" },
+      floorSize: { "@type": "QuantitativeValue", value: Number(a.area), unitCode: "MTK" },
+    })),
+  ],
+};
+---
+<Base lang="uk" title={site.title} description={site.description}>
+  <Fragment slot="head">
+    <link rel="icon" type="image/png" href={favicon.src} />
+    <script type="application/ld+json" data-rec="SE-R004" set:html={JSON.stringify(ld)} />
+  </Fragment>
+  <Header slot="header" />
+  <Hero />
+  <Start />
+  <Programs />
+  <Parents />
+  <Why />
+  <Arenas />
+  <Life />
+  <Faq />
+  <Contacts />
+  <Footer slot="footer" />
+  <StickyCall slot="footer" />
+</Base>

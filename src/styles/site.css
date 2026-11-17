@@ -1,0 +1,109 @@
+/* Junior Club: shared page styles. Every colour, font and size comes from tokens.css. */
+html { scroll-padding-top: var(--header-h); scrollbar-color: var(--color-text) var(--color-bg); accent-color: var(--color-text); caret-color: var(--color-text); }
+body { font-size: var(--text-body); font-synthesis: none; -webkit-font-smoothing: antialiased; }
+h1, h2, h3 { font-family: var(--font-display); font-weight: 400; margin: 0; letter-spacing: 0; }
+h2 { font-size: var(--text-section); line-height: 1.1; text-wrap: balance; }
+h3 { font-size: var(--text-title); line-height: 1.2; text-wrap: balance; }
+p { margin: 0; }
+ul, ol { margin: 0; padding: 0; }
+::selection { background: var(--color-accent); color: var(--color-accent-ink); }
+
+.container { width: min(100% - 2 * var(--gutter), var(--container)); margin-inline: auto; }
+.section { padding-block: var(--section-y); }
+.lead { font-size: var(--text-lead); line-height: 1.5; color: var(--color-muted); max-width: 40ch; }
+.on-dark { color: var(--color-on-dark); --color-focus: var(--color-accent); --color-muted: var(--color-on-dark-muted); }
+.on-yellow { background: var(--color-field); color: var(--color-accent-ink); }
+
+/* Section head: h2 (6 words or fewer) and one line beside or under it */
+.head { display: grid; gap: var(--s-2); margin-bottom: var(--s-5); }
+@media (min-width: 64rem) {
+  .head--split { grid-template-columns: minmax(0, 6fr) minmax(0, 5fr); column-gap: var(--col-gap); align-items: end; }
+  .head--split .lead { grid-column: 2; justify-self: start; }
+}
+
+/* Buttons: pill, 56/48px, ball icon rolls on hover */
+.btn {
+  --btn-bg: var(--color-text);
+  --btn-fg: var(--color-accent);
+  display: inline-flex; align-items: center; justify-content: center; gap: .75rem;
+  min-height: var(--btn-h); padding: .5rem 1.75rem;
+  border-radius: var(--radius-pill); border: var(--rule) solid var(--btn-bg);
+  background: var(--btn-bg); color: var(--btn-fg);
+  font: 600 var(--text-body)/1.2 var(--font-body);
+  text-decoration: none; text-align: center; max-width: 100%;
+  transition: background-color var(--dur-short) var(--ease-out), color var(--dur-short) var(--ease-out), transform var(--dur-micro) var(--ease-out);
+}
+.btn .icon { flex: none; transition: transform 300ms var(--ease-out); }
+.btn:active { transform: translateY(1px); }
+.btn--yellow { --btn-bg: var(--color-accent); --btn-fg: var(--color-accent-ink); border-color: var(--color-text); }
+.btn--white { --btn-bg: var(--color-on-dark); --btn-fg: var(--color-text); }
+.btn--ghost { --btn-bg: transparent; --btn-fg: currentColor; border-color: currentColor; }
+.btn--block { width: 100%; }
+@media (hover: hover) {
+  .btn:hover .icon--roll { transform: translateX(4px) rotate(180deg); }
+  .btn:hover { background: var(--btn-hover-bg, var(--btn-bg)); }
+  .btn--ink:hover { --btn-hover-bg: var(--color-graphite); }
+  .btn--yellow:hover { --btn-hover-bg: var(--color-text); color: var(--color-accent); }
+  .btn--white:hover { --btn-hover-bg: var(--color-accent); }
+}
+
+/* Text link: 2px underline */
+.tlink {
+  display: inline-flex; align-items: center; gap: .5rem; min-height: 2.75rem;
+  color: inherit; font-weight: 600; text-decoration: underline; text-decoration-thickness: var(--rule); text-underline-offset: .3em;
+  transition: text-decoration-color var(--dur-short) var(--ease-out);
+}
+.tlink .icon { flex: none; }
+@media (hover: hover) { .tlink:hover { text-decoration-color: transparent; } }
+
+/* FutureLink restyle: dotted underline, muted, tooltip in the page's ink */
+.future-link {
+  color: inherit; font-weight: 600; text-decoration: underline dotted; text-decoration-thickness: var(--rule); text-underline-offset: .3em;
+  opacity: .78; min-height: 2.75rem; cursor: help;
+}
+.future-link__note[aria-hidden="true"] { font-family: var(--font-body); font-weight: 600; font-size: .8125rem; border-radius: .5rem; background: var(--color-text); color: var(--color-bg); }
+.on-dark .future-link__note[aria-hidden="true"] { background: var(--color-accent); color: var(--color-text); }
+@media (hover: hover) { .future-link:hover .future-link__note { transition-delay: 300ms; } }
+/* Tooltip anchored to the link's start so it never leaves the screen at the left edge */
+.future-link__note[aria-hidden="true"] { left: 0; transform: translateY(-4px); }
+.future-link:hover .future-link__note, .future-link:focus-visible .future-link__note { transform: none; }
+
+/* Disabled controls (none in the demo yet; FULL forms inherit this) */
+button:disabled, .btn[aria-disabled="true"] { opacity: .55; cursor: not-allowed; }
+
+/* Shared photo frame */
+.photo img { width: 100%; height: 100%; object-fit: cover; border-radius: var(--radius); }
+.caption { margin-top: var(--s-1); font-size: var(--text-small); line-height: 1.45; color: var(--color-muted); }
+
+@media (prefers-reduced-motion: reduce) {
+  .btn:hover .icon--roll { transform: none; }
+  .btn:active { transform: none; }
+}
+
+/* Sticky call bar on phones (StickyCall.astro): hidden state only when the script runs */
+.sticky-call { display: none; }
+@media (max-width: 47.99rem) {
+  .js .sticky-call {
+    display: block; position: fixed; left: var(--gutter); right: var(--gutter); bottom: var(--s-1); z-index: 40;
+    transform: translateY(calc(100% + var(--s-2))); visibility: hidden;
+    transition: transform var(--dur-short) var(--ease-out), visibility 0s linear var(--dur-short);
+  }
+  .js .sticky-call.is-shown { transform: none; visibility: visible; transition: transform var(--dur-short) var(--ease-out), visibility 0s; }
+  /* room at the end of the page so the bar never covers the footer */
+  .js body { padding-bottom: calc(var(--btn-h) + var(--s-2)); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .js .sticky-call, .js .sticky-call.is-shown { transition: visibility 0s; }
+}
+
+/* Hero lion «walks onto the pitch»: a transition started by ui.ts (.is-ready), so the end state is stable */
+.js .hero:not(.is-ready) .hero__lion { opacity: 0; }
+.hero__lion { transition: opacity 300ms var(--ease-out); }
+@media (min-width: 48rem) {
+  .js .hero:not(.is-ready) .hero__lion { transform: translateY(24px); }
+  .hero__lion { transition: opacity var(--dur) var(--ease-out), transform var(--dur) var(--ease-out); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .js .hero:not(.is-ready) .hero__lion { opacity: 1; transform: none; }
+  .hero__lion { transition: none; }
+}

@@ -1,0 +1,43 @@
+---
+import "../styles/tokens.css";
+import "../styles/fonts.css";
+import "../styles/global.css";
+import "../styles/site.css";
+import displayFont from "../assets/fonts/days-one-cyrillic-400-normal.woff2?url";
+
+interface Props { lang: string; title: string; description: string; canonical?: string; ogImage?: string; }
+const { lang, title, description, canonical, ogImage } = Astro.props;
+---
+<!doctype html>
+<html lang={lang}>
+  <head>
+    <meta charset="utf-8" />
+    <script is:inline>document.documentElement.classList.add("js")</script>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    {canonical && <link rel="canonical" href={canonical} />}
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:type" content="website" />
+    <meta property="og:locale" content="uk_UA" />
+    {ogImage && <meta property="og:image" content={ogImage} />}
+    <meta name="robots" content="noindex" />
+    <link rel="preload" href={displayFont} as="font" type="font/woff2" crossorigin />
+    <slot name="head" />
+  </head>
+  <body id="top">
+    <a class="skip-link" href="#main">{lang.startsWith("uk") ? "До змісту" : lang.startsWith("ru") ? "К содержанию" : "Skip to content"}</a>
+    <slot name="header" />
+    <main id="main"><slot /></main>
+    <slot name="footer" />
+    <script src="../scripts/reveal.ts"></script>
+    <script src="../scripts/ui.ts"></script>
+  </body>
+</html>
+
+<style is:global>
+  /* Floor 4: horizontal overflow clipped on both roots (also in global.css) */
+  html { overflow-x: clip; }
+  body { overflow-x: clip; }
+</style>

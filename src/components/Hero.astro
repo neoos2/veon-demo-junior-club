@@ -1,0 +1,154 @@
+---
+// First screen: yellow pitch, H1, black scoreboard «45 хвилин», one call action, lion Junior on the touchline, minute scale 0'–45'.
+import { Picture } from "astro:assets";
+import Section from "./Section.astro";
+import CallButton from "./CallButton.astro";
+import Icon from "./Icon.astro";
+import lion from "../assets/img/lion5-trim.png";
+import { phones, site } from "../data/club";
+---
+<Section id="hero" rec="UX-R001,G-R002,MT-R002" class="hero on-yellow" label="Перше заняття">
+  <div class="hero__grid container">
+    <h1 class="hero__title" data-rec="SE-R003">{site.h1}</h1>
+
+    <p class="board">
+      <span class="board__num">45</span>
+      <span class="board__unit">хвилин</span>
+      <span class="board__line">перше заняття — безкоштовно, батьки в залі</span>
+    </p>
+
+    <div class="hero__act">
+      <CallButton class="hero__cta" />
+      <a class="hero__phone" href={`tel:${phones.main.tel}`} data-rec="UX-R003,B-R002,G-R001,MT-R001">{phones.main.label}</a>
+      <a class="tlink hero__how" href="#start"><span>Як проходить перше заняття</span><Icon name="arrow-down" size={20} /></a>
+    </div>
+
+    <div class="hero__lion">
+      <Picture
+        src={lion}
+        alt="Лев Junior — талісман клубу"
+        formats={["webp"]}
+        fallbackFormat="png"
+        widths={[120, 240, 439]}
+        sizes="(min-width: 64rem) 28rem, 6rem"
+        loading="eager"
+        class="hero__lion-img"
+      />
+    </div>
+  </div>
+
+  <div class="scale container" data-scale>
+    <div class="scale__track" aria-hidden="true">
+      <span class="scale__fill"></span>
+      <span class="scale__tick" style="--at: 0">0'</span>
+      <span class="scale__tick" style="--at: 1">15'</span>
+      <span class="scale__tick" style="--at: 2">30'</span>
+      <span class="scale__tick" style="--at: 3">45'</span>
+    </div>
+    <p class="scale__label">Прийди та спробуй</p>
+    <a class="tlink scale__arenas" href="#arenas"><span>Дві арени: Підзамче і Сихів</span><Icon name="arrow-right" size={20} /></a>
+  </div>
+</Section>
+
+<style>
+  .hero { position: relative; overflow: clip; display: flex; flex-direction: column; justify-content: space-between; padding-top: var(--s-3); }
+  .hero__grid {
+    display: grid; grid-template-columns: minmax(0, 1fr) 7rem; column-gap: 0;
+    grid-template-areas: "title title" "board board" "act act";
+    align-items: end; row-gap: var(--s-3);
+  }
+  .hero__title { grid-area: title; font-size: var(--text-hero); line-height: 1.11; max-width: 22ch; }
+
+  .board {
+    grid-area: board; position: relative; z-index: 1;
+    display: grid; grid-template-columns: auto minmax(0, 1fr); align-items: center; column-gap: var(--s-2);
+    background: var(--color-text); color: var(--color-on-dark); border-radius: var(--radius);
+    padding: .75rem 1rem; margin-right: 4.5rem;
+  }
+  .board__num { font-family: var(--font-display); color: var(--color-accent); font-size: 2.5rem; line-height: 1; grid-row: span 2; }
+  .board__unit { font-family: var(--font-display); font-size: 1.125rem; line-height: 1.1; }
+  .board__line { font-size: var(--text-small); line-height: 1.35; color: var(--color-on-dark); }
+
+  .hero__act { grid-area: act; display: grid; gap: var(--s-1); justify-items: start; }
+  .hero__act :global(.hero__cta) { width: 100%; }
+  .hero__phone { display: none; }
+  .hero__how { font-weight: 600; }
+
+  .hero__lion { grid-area: board; justify-self: end; align-self: end; width: 5.5rem; margin-bottom: -.25rem; z-index: 0; }
+  .hero__lion :global(img) { width: 100%; height: auto; }
+
+  /* Minute scale */
+  .scale { display: grid; grid-template-columns: minmax(0, 1fr); row-gap: var(--s-1); padding-block: var(--s-3) var(--s-3); }
+  .scale__track { position: relative; height: 2.5rem; border-bottom: var(--rule) solid var(--color-text); --span: 100%; }
+  .scale__fill {
+    position: absolute; left: 0; bottom: -5px; height: 8px; width: var(--span);
+    background: var(--color-text); border-radius: var(--radius-pill); transform-origin: left center;
+  }
+  :global(.js) .scale__fill { animation: draw 500ms var(--ease-out) 150ms both; }
+  .scale__tick {
+    position: absolute; bottom: 0; left: calc(var(--span) * var(--at) / 3);
+    font: 400 .875rem/1 var(--font-display); padding-bottom: .75rem; transform: translateX(-50%);
+  }
+  .scale__tick::after { content: ""; position: absolute; left: 50%; bottom: 0; width: var(--rule); height: .5rem; background: var(--color-text); }
+  .scale__tick:first-of-type { transform: none; }
+  .scale__tick:first-of-type::after { left: 0; }
+  .scale__tick:last-of-type { transform: translateX(-100%); }
+  .scale__tick:last-of-type::after { left: auto; right: 0; }
+  .scale__label { font-weight: 600; }
+  .scale__arenas { justify-self: start; }
+
+  @keyframes draw { from { transform: scaleX(0); } to { transform: scaleX(1); } }
+
+  @media (min-width: 30rem) {
+    .hero__grid { grid-template-columns: minmax(0, 1fr) 9rem; }
+    .hero__lion { width: 7rem; }
+    .board { margin-right: 6rem; }
+  }
+
+  @media (min-width: 48rem) {
+    .hero { min-height: min(calc(100svh - var(--header-h)), 54rem); padding-top: var(--s-4); }
+    .hero__grid {
+      grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: var(--col-gap); row-gap: var(--s-4);
+      grid-template-areas:
+        "title title title title title title title title title lion lion lion"
+        "board board board board board board act act act lion lion lion";
+    }
+    .hero__title { max-width: none; }
+    .board {
+      margin-right: 0; padding: var(--s-3) var(--s-4) var(--s-3) var(--s-3);
+      grid-template-columns: auto minmax(0, 1fr); column-gap: var(--s-3); row-gap: var(--s-1);
+    }
+    .board__num { font-size: var(--text-board); line-height: .82; }
+    .board__unit { font-size: var(--text-title); align-self: end; color: var(--color-on-dark); }
+    .board__line { font-size: var(--text-body); align-self: start; max-width: 22ch; }
+    .hero__act { align-self: center; gap: var(--s-2); }
+    .hero__act :global(.hero__cta) { width: auto; }
+    .hero__phone { display: inline-flex; min-height: 2.75rem; align-items: center; font-family: var(--font-display); font-size: var(--text-title); color: inherit; text-decoration: none; }
+    .hero__phone:hover { text-decoration: underline; text-decoration-thickness: var(--rule); text-underline-offset: .2em; }
+    .hero__lion { grid-area: lion; width: 100%; max-width: 26rem; overflow: hidden; margin-bottom: calc(-1 * (var(--s-4) + var(--s-1) + 5.5rem)); align-self: end; justify-self: end; }
+    .hero__lion :global(img) { margin-bottom: -4%; }
+
+    .scale { grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: var(--col-gap); align-items: end; padding-block: var(--s-4) var(--s-4); position: relative; z-index: 1; }
+    .scale__track { grid-column: 1 / -1; grid-row: 2; --span: 66.6%; }
+    .scale__label { grid-column: 1 / 8; grid-row: 1; }
+    .scale__arenas { grid-column: 9 / -1; grid-row: 3; justify-self: end; }
+    :global(.js) .scale__fill { animation-duration: var(--dur-long); }
+  }
+  @media (min-width: 48rem) and (max-width: 63.99rem) {
+    .hero__grid { grid-template-areas: "title title title title title title title title title title title title" "board board board board board board board board board board board board" "act act act act act act act act act act act act" "lion lion lion lion lion lion lion lion lion lion lion lion"; }
+    .hero__lion { display: none; }
+  }
+  @media (min-width: 64rem) {
+    .hero__grid {
+      grid-template-areas:
+        "title title title title title title title title . lion lion lion"
+        "board board board board board act act act act lion lion lion";
+    }
+    .hero__act :global(.hero__cta) { white-space: nowrap; }
+    .hero__lion { width: min(28rem, calc(100% + 8rem)); max-width: none; justify-self: end; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    :global(.js) .scale__fill { animation: none; }
+  }
+</style>

@@ -1,0 +1,11 @@
+---
+// Primary action: call the club to book the free first lesson (UX-R003, B-R002: one checked number in tel:).
+import Icon from "./Icon.astro";
+import { phones } from "../data/club";
+interface Props { variant?: "ink" | "yellow" | "white"; block?: boolean; class?: string; label?: string; tel?: string; icon?: "ball" | "phone"; }
+const { variant = "ink", block = false, class: cls, label = "Записатися безкоштовно", tel = phones.main.tel, icon = "ball" } = Astro.props;
+---
+<a class:list={["btn", `btn--${variant}`, { "btn--block": block }, cls]} href={`tel:${tel}`} data-rec="UX-R003,B-R002,G-R001,MT-R001">
+  <span>{label}</span>
+  <Icon name={icon} size={22} class={icon === "ball" ? "icon--roll" : undefined} />
+</a>

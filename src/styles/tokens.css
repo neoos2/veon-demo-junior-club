@@ -1,0 +1,79 @@
+/* Hallmark · shape: 14-narrative-workflow · genre: playful · theme: custom · job: join · idea: "Перший тайм: шлях дитини в Junior Club — це матч; перше заняття триває 45 хвилин, рівно тайм" · vibe: "brand-yellow pitch, black scoreboard, friendly match-day"
+ * paper: #FFFFFF with #F9EA00 fields · accent: #121212 on yellow, #F9EA00 on white and graphite · display: Days One · body: Finlandica Text · hero: yellow pitch, H1 on 8 columns, black scoreboard «45 хвилин», lion Junior on the touchline, minute scale 0'–45' along the foot · nav: edge-aligned bar on the yellow field, white and sticky after the hero, menu panel under 75rem · footer: black colophon block with yellow shield outline on top · imagery: client photos (hall, tribune) and the club mascot · signature: the minute scale — first lesson is one 45-minute half, continued as halves of the joining path
+ * surface: absolute · axes: drenched-yellow/display-wide-heavy/ink-on-yellow · posture: committed · contrast: pass · fold: pass · v2.0.0 */
+/* Hallmark · pre-emit critique: P4 H4 E4 S4 R4 V4 · weakest: imagery, only 2021 hall photos and the mascot exist — photos used twice, the rest is type and the minute scale */
+/* Hallmark · waive 7b · --color-bg #FFFFFF, --color-on-dark #FFFFFF · concept §5 Look and veon-concept colors: white is the approved surface between the two yellow fields, the text on the shield's black and graphite halves */
+/* Hallmark · waive 39b · buttons 56px (48px in the header) · concept §5 «Кнопки: высота 56/48» and ux §8: the call buttons are the page's one job, full-width 56px targets on phones */
+/* Hallmark · waive 59 · 9 sections plus footer · the order hero, start, programs, parents, why, arenas, life, faq, contacts is fixed by the approved concept (veon-concept sections) */
+/* Hallmark · waive 23 · .pos::before yellow · the yellow under a programme row is a hover/focus state on one row, not a resting surface; resting yellow is only the hero and contacts fields */
+/* Hallmark · waive 44c · lion centre ~140px below the text centre at 1440 · concept §5 «Первый экран»: лев Junior стоит на линии поля (шкала минут 0'–45'), «выходит на поле»; lion now spans from the H1 third line to the scale line */
+/* Line 1 of this file is the Hallmark stamp (docs/process/hallmark.md): fill it from design/concept.md; waivers go right below it. */
+/* Client design tokens: from design/concept.md (veon-concept: colors, fonts). Breakpoints (used as literals in media queries): 30rem, 48rem, 64rem, 75rem. */
+:root {
+  /* colour roles */
+  --c-yellow: #F9EA00;
+  --c-ink: #121212;
+  --c-white: #FFFFFF;
+  --c-graphite: #46484E;
+  --c-muted: #4D4F55;
+  --c-muted-dark: #D9DADD;
+
+  --color-bg: var(--c-white);
+  --color-text: var(--c-ink);
+  --color-muted: var(--c-muted);
+  --color-accent: var(--c-yellow);
+  --color-accent-ink: var(--c-ink);
+  --color-field: var(--c-yellow);
+  --color-graphite: var(--c-graphite);
+  --color-on-dark: var(--c-white);
+  --color-on-dark-muted: var(--c-muted-dark);
+  --color-focus: var(--c-ink);
+
+  /* type */
+  --font-display: "Days One", "Arial Black", system-ui, sans-serif;
+  --font-body: "Finlandica Text", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --text-board: clamp(5.5rem, 2.6rem + 9.4vw, 10rem);     /* 88 → 160 */
+  --text-hero: clamp(2.25rem, 1.3rem + 3.9vw, 4.5rem);     /* 36 → 72 */
+  --text-section: clamp(1.875rem, 1.4rem + 1.9vw, 3rem);   /* 30 → 48 */
+  --text-figure: clamp(2.75rem, 1.6rem + 4.6vw, 5.5rem);   /* 44 → 88 */
+  --text-age: clamp(2.75rem, 2.3rem + 1.4vw, 3.5rem);      /* 44 → 56 */
+  --text-title: clamp(1.375rem, 1.2rem + 0.6vw, 1.75rem);  /* 22 → 28 */
+  --text-lead: clamp(1.125rem, 1.05rem + 0.3vw, 1.25rem);  /* 18 → 20 */
+  --text-body: clamp(1.0625rem, 1.04rem + 0.1vw, 1.125rem); /* 17 → 18 */
+  --text-small: 0.9375rem;                                 /* 15 */
+
+  /* space: multiples of 8 */
+  --s-1: 0.5rem;
+  --s-2: 1rem;
+  --s-3: 1.5rem;
+  --s-4: 2.5rem;
+  --s-5: 4rem;
+  --s-6: 6rem;
+  --s-7: 8rem;
+  --section-y: clamp(4rem, 2.6rem + 5.6vw, 8rem);
+  --gutter: clamp(1.25rem, 0.4rem + 3.4vw, 4rem);          /* 20 → 64 */
+  --space: var(--gutter);
+  --container: 80rem;                                      /* 1280 */
+  --col-gap: 1.5rem;
+
+  /* shape */
+  --radius: 1rem;
+  --radius-pill: 999px;
+  --rule: 2px;
+  --outline: 4px;
+  --header-h: 5.5rem;
+  --btn-h: 3.5rem;
+
+  /* motion */
+  --ease-out: cubic-bezier(.2, .7, .2, 1);
+  --ease-in: cubic-bezier(.5, 0, .75, 0);
+  --ease-in-out: cubic-bezier(.65, 0, .35, 1);
+  --dur-micro: 100ms;
+  --dur-short: 250ms;
+  --dur: 600ms;
+  --dur-long: 700ms;
+}
+
+@media (max-width: 47.99rem) {
+  :root { --header-h: 3.5rem; --btn-h: 3.5rem; }
+}

@@ -1,0 +1,52 @@
+---
+// «Дві домашні арени»: two halves of the club shield in one yellow outline (B-F007).
+import Section from "./Section.astro";
+import CallButton from "./CallButton.astro";
+import FutureLink from "./FutureLink.astro";
+import Icon from "./Icon.astro";
+import { arenas } from "../data/club";
+---
+<Section id="arenas" class="section arenas">
+  <div class="container">
+    <div class="head head--split">
+      <h2>Дві домашні арени</h2>
+      <p class="lead">Оберіть ближчу. Розклад груп на кожній арені підкажемо телефоном.</p>
+    </div>
+    <div class="shield">
+      {arenas.map((a, i) => (
+        <article class:list={["half on-dark", i === 0 ? "half--ink" : "half--graphite"]} aria-labelledby={`arena-${a.id}`}>
+          <h3 id={`arena-${a.id}`}>{a.district}</h3>
+          <p class="half__area"><span>{a.area}</span> м²</p>
+          <p class="half__addr">Львів, {a.street}<br />{a.floor}</p>
+          <div class="half__act">
+            <CallButton variant="white" />
+            <a class="tlink" href={a.map} target="_blank" rel="noopener"><Icon name="map" size={20} /><span>Маршрут</span></a>
+            <FutureLink note="Розділ у розробці">Розклад арени</FutureLink>
+          </div>
+        </article>
+      ))}
+    </div>
+  </div>
+</Section>
+
+<style>
+  .shield {
+    display: grid; grid-template-columns: minmax(0, 1fr); border: var(--outline) solid var(--color-accent); border-radius: var(--radius); overflow: hidden;
+    outline: var(--rule) solid var(--color-text); outline-offset: 0;
+  }
+  .half { display: grid; gap: var(--s-2); align-content: start; padding: var(--s-4) var(--s-3); }
+  .half--ink { background: var(--color-text); }
+  .half--graphite { background: var(--color-graphite); }
+  .half h3 { font-size: clamp(1.75rem, 1.4rem + 1.4vw, 2.5rem); text-wrap: balance; }
+  .half__area { font: 400 var(--text-figure)/1 var(--font-display); color: var(--color-accent); }
+  .half__area span { font-size: 1em; }
+  .half__addr { font-size: var(--text-lead); line-height: 1.45; color: var(--color-on-dark-muted); }
+  .half__act { display: flex; flex-wrap: wrap; align-items: center; gap: var(--s-2) var(--s-3); margin-top: var(--s-2); }
+  @media (min-width: 48rem) {
+    .shield { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .half { padding: var(--s-5) var(--s-4); }
+  }
+  @media (max-width: 29.99rem) {
+    .half__act :global(.btn) { width: 100%; }
+  }
+</style>
